@@ -3,15 +3,16 @@ import { Routes, Route } from "react-router-dom";
 
 const WA = "https://wa.me/message/TMQD6AGCLOILK1";
 const IG = "https://instagram.com/resultados_lgestetica";
+const ASSET_BASE = "https://id-preview--e8dfa13f-24ac-4110-9a64-34e49ac71921.lovable.app";
 
 const IMG = {
-  lips1: "/__l5e/assets-v1/e76d9fa0-6a9d-48e5-bfa8-7e09e70a1de2/image.png",
-  skin:  "/__l5e/assets-v1/1d8630bb-6f05-44e3-913f-ec0af92cdea7/image-2.png",
-  gloss1:"/__l5e/assets-v1/b5979fb2-e247-4868-85ec-dff4f872e214/image-3.png",
-  gloss2:"/__l5e/assets-v1/5ff752b4-2880-4273-a0d5-798fb2186156/image-4.png",
-  port1: "/__l5e/assets-v1/f67036f6-f58b-4b38-92cb-0c469bae95f2/image-5.png",
-  port2: "/__l5e/assets-v1/d4569c90-622b-4167-900e-3cbeeb1c5337/image-6.png",
-  gloss3:"/__l5e/assets-v1/5fa989aa-6812-4640-8f21-a98290c6a275/image-7.png",
+  lips1: `${ASSET_BASE}/__l5e/assets-v1/e76d9fa0-6a9d-48e5-bfa8-7e09e70a1de2/image.png`,
+  skin:  `${ASSET_BASE}/__l5e/assets-v1/1d8630bb-6f05-44e3-913f-ec0af92cdea7/image-2.png`,
+  gloss1:`${ASSET_BASE}/__l5e/assets-v1/b5979fb2-e247-4868-85ec-dff4f872e214/image-3.png`,
+  gloss2:`${ASSET_BASE}/__l5e/assets-v1/5ff752b4-2880-4273-a0d5-798fb2186156/image-4.png`,
+  port1: `${ASSET_BASE}/__l5e/assets-v1/f67036f6-f58b-4b38-92cb-0c469bae95f2/image-5.png`,
+  port2: `${ASSET_BASE}/__l5e/assets-v1/d4569c90-622b-4167-900e-3cbeeb1c5337/image-6.png`,
+  gloss3:`${ASSET_BASE}/__l5e/assets-v1/5fa989aa-6812-4640-8f21-a98290c6a275/image-7.png`,
 };
 
 function useReveal() {

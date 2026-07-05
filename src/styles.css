@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --white: #FFFFFF;
-  --off: #F8F6F8;
-  --blush: #FDF0F4;
-  --rose: #E8648A;
-  --rose-dim: rgba(232,100,138,0.10);
-  --rose-glow: rgba(232,100,138,0.06);
-  --graphite: #1A1520;
-  --mid: #6B6070;
-  --muted: #B0A8B5;
-  --line: rgba(232,100,138,0.18);
+  --ivory: #F5F1EA;
+  --bone: #EDE7DC;
+  --paper: #FBF8F3;
+  --ink: #171214;
+  --ink-soft: #3A3238;
+  --mid: #6B6167;
+  --muted: #A79FA5;
+  --wine: #4A1D2E;
+  --wine-2: #6B2A42;
+  --nude: #D9C4B8;
+  --blush: #E8D4CC;
+  --line: rgba(23,18,20,0.12);
+  --line-soft: rgba(23,18,20,0.06);
 }
 
 * { box-sizing: border-box; }
@@ -18,19 +21,41 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   overflow-x: hidden;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  background: var(--white);
-  color: var(--graphite);
+  font-family: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  background: var(--ivory);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01","cv11";
 }
 
-.font-serif-i { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; }
+.serif { font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-weight: 400; }
+.serif-i { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; }
 
-.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.eyebrow {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.rule { height: 1px; background: var(--line); }
+
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
 .fade-up.in { opacity: 1; transform: translateY(0); }
 
-@keyframes pulse-rose {
-  0%, 100% { box-shadow: 0 8px 32px rgba(232,100,138,0.4), 0 0 0 0 rgba(232,100,138,0.5); }
-  50% { box-shadow: 0 8px 32px rgba(232,100,138,0.4), 0 0 0 14px rgba(232,100,138,0); }
+.grain::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(23,18,20,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.4;
+  pointer-events: none;
+  mix-blend-mode: multiply;
 }
-.wa-pulse { animation: pulse-rose 2s infinite; }
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 40s linear infinite; }

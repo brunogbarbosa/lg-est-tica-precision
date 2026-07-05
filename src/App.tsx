@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 const WA = "https://wa.me/message/TMQD6AGCLOILK1";
+const IG = "https://instagram.com/resultados_lgestetica";
 
 const IMG = {
-  hydraLips: "/__l5e/assets-v1/e76d9fa0-6a9d-48e5-bfa8-7e09e70a1de2/image.png",
-  limpeza: "/__l5e/assets-v1/1d8630bb-6f05-44e3-913f-ec0af92cdea7/image-2.png",
-  gloss1: "/__l5e/assets-v1/b5979fb2-e247-4868-85ec-dff4f872e214/image-3.png",
-  gloss2: "/__l5e/assets-v1/5ff752b4-2880-4273-a0d5-798fb2186156/image-4.png",
-  leticia1: "/__l5e/assets-v1/f67036f6-f58b-4b38-92cb-0c469bae95f2/image-5.png",
-  leticia2: "/__l5e/assets-v1/d4569c90-622b-4167-900e-3cbeeb1c5337/image-6.png",
-  gloss3: "/__l5e/assets-v1/5fa989aa-6812-4640-8f21-a98290c6a275/image-7.png",
+  lips1: "/__l5e/assets-v1/e76d9fa0-6a9d-48e5-bfa8-7e09e70a1de2/image.png",
+  skin:  "/__l5e/assets-v1/1d8630bb-6f05-44e3-913f-ec0af92cdea7/image-2.png",
+  gloss1:"/__l5e/assets-v1/b5979fb2-e247-4868-85ec-dff4f872e214/image-3.png",
+  gloss2:"/__l5e/assets-v1/5ff752b4-2880-4273-a0d5-798fb2186156/image-4.png",
+  port1: "/__l5e/assets-v1/f67036f6-f58b-4b38-92cb-0c469bae95f2/image-5.png",
+  port2: "/__l5e/assets-v1/d4569c90-622b-4167-900e-3cbeeb1c5337/image-6.png",
+  gloss3:"/__l5e/assets-v1/5fa989aa-6812-4640-8f21-a98290c6a275/image-7.png",
 };
 
 function useReveal() {
@@ -18,9 +19,9 @@ function useReveal() {
     const els = document.querySelectorAll(".fade-up");
     const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e, i) => {
+        entries.forEach((e) => {
           if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add("in"), i * 60);
+            e.target.classList.add("in");
             io.unobserve(e.target);
           }
         });
@@ -32,195 +33,159 @@ function useReveal() {
   }, []);
 }
 
-function useCounter(target: number, ref: React.RefObject<HTMLElement | null>) {
-  const [v, setV] = useState(0);
-  useEffect(() => {
-    if (!ref.current) return;
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          const dur = 1400;
-          const start = performance.now();
-          const tick = (now: number) => {
-            const p = Math.min(1, (now - start) / dur);
-            setV(Math.floor(target * (1 - Math.pow(1 - p, 3))));
-            if (p < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-          io.disconnect();
-        }
-      });
-    });
-    io.observe(ref.current);
-    return () => io.disconnect();
-  }, [target, ref]);
-  return v;
-}
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", on);
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  const link = "text-[11px] font-semibold uppercase tracking-[0.12em] text-[color:var(--mid)] hover:text-[color:var(--rose)] transition-colors cursor-pointer";
+/* ---------------- NAV ---------------- */
+function Nav() {
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
-      style={{
-        background: "rgba(255,255,255,0.85)",
-        borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
-        transition: "border-color .3s",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 h-[76px] flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-3">
-          <div
-            className="w-11 h-11 flex items-center justify-center font-extrabold text-[color:var(--rose)]"
-            style={{ background: "var(--rose-dim)", borderRadius: 8, fontSize: 18 }}
-          >
-            LG
-          </div>
-          <div className="leading-tight">
-            <div className="font-bold text-[12px] uppercase tracking-[0.15em] text-[color:var(--graphite)]">
-              LETÍCIA GOMES
-            </div>
-            <div className="text-[10px] text-[color:var(--muted)]">
-              ESTÉTICA CLÍNICA · ARAXÁ MG
-            </div>
-          </div>
+    <header className="fixed top-0 inset-x-0 z-50" style={{ background: "rgba(245,241,234,0.85)", backdropFilter: "blur(10px)", borderBottom: "1px solid var(--line-soft)" }}>
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14 h-[78px] grid grid-cols-3 items-center">
+        <a href="#top" className="flex items-center gap-3 justify-self-start">
+          <span className="serif-i text-[26px]" style={{ color: "var(--wine)" }}>Letícia Gomes</span>
         </a>
-        <nav className="hidden md:flex items-center gap-10">
-          <a href="#sobre" className={link}>Sobre</a>
-          <a href="#servicos" className={link}>Serviços</a>
-          <a href="#resultados" className={link}>Resultados</a>
-          <a href="#contato" className={link}>Contato</a>
+        <nav className="hidden md:flex items-center justify-center gap-10 eyebrow" style={{ color: "var(--ink-soft)" }}>
+          <a href="#filosofia" className="hover:opacity-60 transition-opacity">Filosofia</a>
+          <a href="#assinatura" className="hover:opacity-60 transition-opacity">Assinatura</a>
+          <a href="#servicos" className="hover:opacity-60 transition-opacity">Serviços</a>
+          <a href="#galeria" className="hover:opacity-60 transition-opacity">Galeria</a>
         </nav>
         <a
           href={WA}
           target="_blank"
           rel="noreferrer"
-          className="hidden md:inline-flex items-center px-5 py-2.5 rounded-full font-bold text-[12px] uppercase tracking-wider text-white transition-all hover:brightness-110"
-          style={{ background: "var(--rose)" }}
+          className="justify-self-end eyebrow inline-flex items-center gap-2 border px-5 py-3 rounded-full transition-colors hover:text-white"
+          style={{ borderColor: "var(--ink)", color: "var(--ink)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "var(--ink)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
         >
-          Agendar
+          <span>Reservar</span>
+          <span>→</span>
         </a>
-        <button className="md:hidden text-[color:var(--graphite)]" onClick={() => setOpen(!open)} aria-label="menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        </button>
       </div>
-      {open && (
-        <div className="md:hidden px-6 pb-5 flex flex-col gap-3 bg-white border-t" style={{ borderColor: "var(--line)" }}>
-          <a href="#sobre" onClick={() => setOpen(false)} className={link}>Sobre</a>
-          <a href="#servicos" onClick={() => setOpen(false)} className={link}>Serviços</a>
-          <a href="#resultados" onClick={() => setOpen(false)} className={link}>Resultados</a>
-          <a href="#contato" onClick={() => setOpen(false)} className={link}>Contato</a>
-          <a href={WA} target="_blank" rel="noreferrer" className="mt-2 inline-flex justify-center px-5 py-2.5 rounded-full font-bold text-[12px] uppercase text-white" style={{ background: "var(--rose)" }}>Agendar</a>
-        </div>
-      )}
     </header>
   );
 }
 
-function BeforeAfterMini({ before, after, tag }: { before: string; after: string; tag?: string }) {
-  return (
-    <div className="relative rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(232,100,138,0.10)] bg-white">
-      <div className="grid grid-rows-2 h-full">
-        <div className="relative">
-          <img src={before} alt="antes" className="w-full h-full object-cover" style={{ objectPosition: "center" }} />
-          <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider" style={{ background: "white", color: "var(--rose)", border: "1px solid var(--rose)" }}>Antes</span>
-        </div>
-        <div className="relative">
-          <img src={after} alt="depois" className="w-full h-full object-cover" style={{ objectPosition: "center" }} />
-          <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider text-white" style={{ background: "var(--rose)" }}>Depois</span>
-        </div>
-      </div>
-      {tag && (
-        <span
-          className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-white"
-          style={{ background: "var(--rose)" }}
-        >
-          {tag}
-        </span>
-      )}
-    </div>
-  );
-}
-
+/* ---------------- HERO ---------------- */
 function Hero() {
-  const r1 = useRef<HTMLSpanElement>(null);
-  const r2 = useRef<HTMLSpanElement>(null);
-  const n1 = useCounter(565, r1);
-  const n2 = useCounter(100, r2);
   return (
-    <section id="top" className="relative pt-[76px]">
-      <div className="grid lg:grid-cols-[52%_48%]">
-        <div className="px-6 lg:px-16 py-16 lg:py-28">
-          <span
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-widest"
-            style={{ background: "var(--rose-dim)", color: "var(--rose)", border: "1px solid var(--rose)" }}
-          >
-            ✦ Coren 612594 MG · Araxá MG
+    <section id="top" className="relative pt-[78px]">
+      <div className="grid lg:grid-cols-[1.05fr_1fr] min-h-[92vh]">
+        {/* Left — editorial type */}
+        <div className="relative flex flex-col justify-between px-8 lg:px-16 py-14 lg:py-20" style={{ background: "var(--ivory)" }}>
+          <div className="flex items-center gap-4">
+            <span className="w-10 h-px" style={{ background: "var(--wine)" }} />
+            <span className="eyebrow" style={{ color: "var(--wine)" }}>Estética Clínica · Araxá MG</span>
+          </div>
+
+          <div>
+            <h1 className="serif leading-[0.92] tracking-tight" style={{ fontSize: "clamp(64px, 9.5vw, 148px)", color: "var(--ink)" }}>
+              A ciência
+              <br />
+              da beleza,
+              <br />
+              <span className="serif-i" style={{ color: "var(--wine)" }}>refinada.</span>
+            </h1>
+            <p className="mt-10 max-w-md text-[15px] leading-[1.7]" style={{ color: "var(--ink-soft)" }}>
+              Protocolos autorais em estética facial conduzidos pela enfermeira esteta Letícia Gomes — resultados naturais, discretos e duradouros, no coração de Araxá.
+            </p>
+            <div className="mt-10 flex items-center gap-8">
+              <a
+                href={WA}
+                target="_blank"
+                rel="noreferrer"
+                className="eyebrow inline-flex items-center gap-3 px-7 py-4 rounded-full text-white transition-transform hover:-translate-y-0.5"
+                style={{ background: "var(--ink)" }}
+              >
+                Agendar consulta <span>→</span>
+              </a>
+              <a href="#assinatura" className="eyebrow" style={{ color: "var(--ink)" }}>
+                Nosso ritual ↓
+              </a>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 pt-10 border-t" style={{ borderColor: "var(--line)" }}>
+            <div>
+              <div className="serif text-[42px] leading-none" style={{ color: "var(--wine)" }}>08+</div>
+              <div className="mt-2 eyebrow" style={{ color: "var(--mid)" }}>Anos de prática</div>
+            </div>
+            <div>
+              <div className="serif text-[42px] leading-none" style={{ color: "var(--wine)" }}>612594</div>
+              <div className="mt-2 eyebrow" style={{ color: "var(--mid)" }}>Coren · MG</div>
+            </div>
+            <div>
+              <div className="serif text-[42px] leading-none" style={{ color: "var(--wine)" }}>1:1</div>
+              <div className="mt-2 eyebrow" style={{ color: "var(--mid)" }}>Atendimento</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right — portrait */}
+        <div className="relative overflow-hidden" style={{ background: "var(--bone)" }}>
+          <img
+            src={IMG.port2}
+            alt="Letícia Gomes"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: "50% 20%" }}
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(23,18,20,0) 55%, rgba(23,18,20,0.35) 100%)" }} />
+          <div className="absolute bottom-10 left-10 right-10 flex items-end justify-between text-white">
+            <div>
+              <div className="eyebrow opacity-80">Enfermeira Esteta</div>
+              <div className="serif-i text-[28px] mt-1">Letícia Gomes</div>
+            </div>
+            <a href={IG} target="_blank" rel="noreferrer" className="eyebrow underline underline-offset-4 opacity-80 hover:opacity-100">
+              @resultados_lgestetica
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- MARQUEE ---------------- */
+function Marquee() {
+  const items = ["Hydra Gloss", "◆", "Hydra Lips", "◆", "Skinbooster", "◆", "Limpeza Profunda", "◆", "Skincare Clínico", "◆", "Protocolos Autorais", "◆"];
+  const row = [...items, ...items, ...items, ...items];
+  return (
+    <section className="py-6 border-y overflow-hidden" style={{ background: "var(--paper)", borderColor: "var(--line)" }}>
+      <div className="flex marquee-track whitespace-nowrap">
+        {row.map((t, i) => (
+          <span key={i} className={`px-8 ${t === "◆" ? "text-[10px]" : "serif-i text-[26px]"}`} style={{ color: t === "◆" ? "var(--wine)" : "var(--ink)" }}>
+            {t}
           </span>
-          <h1
-            className="mt-6 font-extrabold text-[color:var(--graphite)]"
-            style={{ fontSize: "clamp(52px,7vw,96px)", lineHeight: 0.88, letterSpacing: "-0.02em" }}
-          >
-            Resultados
-            <br />
-            que você{" "}
-            <span style={{ color: "var(--rose)" }}>vê e sente.</span>
-          </h1>
-          <p className="mt-6 text-[17px] leading-relaxed max-w-lg" style={{ color: "var(--mid)" }}>
-            Ciência e cuidado guiando tratamentos faciais em Araxá. Especialista em Hydra Gloss e estética de precisão.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-5">
-            <a
-              href={WA}
-              target="_blank"
-              rel="noreferrer"
-              className="px-9 py-4 rounded-full text-white font-bold text-[13px] uppercase tracking-wider transition-all hover:brightness-110"
-              style={{ background: "var(--rose)" }}
-            >
-              Agendar agora
-            </a>
-            <a href="#resultados" className="font-semibold text-[13px]" style={{ color: "var(--rose)" }}>
-              Ver resultados ↓
-            </a>
-          </div>
-          <div className="mt-10 flex items-center gap-8">
-            <div>
-              <div className="font-extrabold text-[28px] text-[color:var(--graphite)]">
-                <span ref={r1}>{n1}</span>+
-              </div>
-              <div className="text-[11px] uppercase tracking-wider" style={{ color: "var(--muted)" }}>seguidoras</div>
-            </div>
-            <div className="w-px h-10" style={{ background: "var(--rose)" }} />
-            <div>
-              <div className="font-extrabold text-[28px] text-[color:var(--graphite)]">
-                <span ref={r2}>{n2}</span>+
-              </div>
-              <div className="text-[11px] uppercase tracking-wider" style={{ color: "var(--muted)" }}>procedimentos</div>
-            </div>
-            <div className="w-px h-10" style={{ background: "var(--rose)" }} />
-            <div>
-              <div className="font-extrabold text-[18px]" style={{ color: "var(--rose)" }}>Coren</div>
-              <div className="text-[11px] uppercase tracking-wider" style={{ color: "var(--muted)" }}>612594 MG</div>
-            </div>
-          </div>
-        </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
-        <div
-          className="p-6 lg:p-10"
-          style={{ background: "var(--blush)", borderBottomLeftRadius: 48 }}
-        >
-          <div className="grid grid-cols-2 gap-4 h-full min-h-[520px]">
-            <BeforeAfterMini before={IMG.gloss1} after={IMG.gloss2} tag="Hydra Gloss" />
-            <BeforeAfterMini before={IMG.hydraLips} after={IMG.gloss3} tag="Hydra Lips" />
-            <BeforeAfterMini before={IMG.gloss2} after={IMG.gloss3} />
-            <BeforeAfterMini before={IMG.limpeza.replace("image-2","image-2")} after={IMG.limpeza} tag="Limpeza" />
+/* ---------------- FILOSOFIA ---------------- */
+function Filosofia() {
+  return (
+    <section id="filosofia" className="py-32 lg:py-40" style={{ background: "var(--ivory)" }}>
+      <div className="max-w-[1200px] mx-auto px-8 lg:px-14">
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-16">
+          <div className="fade-up">
+            <span className="eyebrow" style={{ color: "var(--wine)" }}>— Filosofia</span>
+          </div>
+          <div className="fade-up">
+            <p className="serif text-[36px] lg:text-[52px] leading-[1.15] tracking-tight" style={{ color: "var(--ink)" }}>
+              Acredito que a beleza mais poderosa é <span className="serif-i" style={{ color: "var(--wine)" }}>a que já existe em você</span> — revelada com técnica, tempo e cuidado.
+            </p>
+            <div className="mt-14 grid sm:grid-cols-3 gap-10">
+              {[
+                { n: "01", t: "Diagnóstico", d: "Cada tratamento começa por uma leitura clínica da sua pele." },
+                { n: "02", t: "Protocolo", d: "Ativos, doses e cadência desenhados para os seus objetivos." },
+                { n: "03", t: "Acompanhamento", d: "Revisão contínua para resultados que amadurecem com você." },
+              ].map((s) => (
+                <div key={s.n}>
+                  <div className="serif-i text-[22px]" style={{ color: "var(--wine)" }}>{s.n}</div>
+                  <div className="mt-3 text-[15px] font-medium" style={{ color: "var(--ink)" }}>{s.t}</div>
+                  <div className="mt-2 text-[14px] leading-[1.6]" style={{ color: "var(--mid)" }}>{s.d}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -228,328 +193,313 @@ function Hero() {
   );
 }
 
-function SocialProofStrip() {
+/* ---------------- ASSINATURA (Hydra Gloss featured) ---------------- */
+function Assinatura() {
   return (
-    <section style={{ background: "var(--rose)" }} className="py-8">
-      <div className="border-y border-white/30 py-4">
-        <div className="max-w-5xl mx-auto px-6 flex flex-wrap items-center justify-center gap-3 text-center text-white">
-          <span className="font-serif-i text-[26px] md:text-[28px]">Ciência e cuidado</span>
-          <span className="opacity-60">·</span>
-          <span className="font-bold text-[20px] md:text-[22px]">guiando resultados naturais.</span>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Sobre() {
-  return (
-    <section id="sobre" className="py-24 lg:py-32" style={{ background: "var(--off)" }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-[55%_45%] gap-14 items-center">
-        <div className="fade-up">
-          <div className="text-[11px] font-extrabold uppercase tracking-[0.3em]" style={{ color: "var(--rose)" }}>
-            Quem sou eu
+    <section id="assinatura" className="py-28 lg:py-36" style={{ background: "var(--paper)" }}>
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14 grid lg:grid-cols-2 gap-14 lg:gap-24 items-center">
+        <div className="fade-up order-2 lg:order-1 relative">
+          <div className="absolute -top-6 -left-6 eyebrow" style={{ color: "var(--wine)" }}>N.º 01 · Assinatura</div>
+          <div className="relative overflow-hidden rounded-[6px]" style={{ aspectRatio: "4 / 5" }}>
+            <img src={IMG.gloss2} alt="Hydra Gloss" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center" }} />
           </div>
-          <h2 className="mt-5 leading-[1.05]">
-            <span className="font-serif-i text-[44px] lg:text-[52px] text-[color:var(--graphite)]">e por que você pode</span>
-            <br />
-            <span className="font-extrabold text-[44px] lg:text-[52px]" style={{ color: "var(--rose)" }}>confiar em mim.</span>
+        </div>
+        <div className="fade-up order-1 lg:order-2">
+          <span className="eyebrow" style={{ color: "var(--wine)" }}>Tratamento Assinatura</span>
+          <h2 className="mt-5 serif text-[64px] lg:text-[92px] leading-[0.95] tracking-tight" style={{ color: "var(--ink)" }}>
+            Hydra <span className="serif-i" style={{ color: "var(--wine)" }}>Gloss</span>
           </h2>
-          <p className="mt-6 text-[16px] leading-relaxed max-w-xl" style={{ color: "var(--mid)" }}>
-            Letícia Gomes, enfermeira esteta (Coren 612594 MG), especialista em estética clínica em Araxá há anos, com foco em protocolos baseados em ciência e resultados naturais e reais.
+          <p className="mt-8 text-[16px] leading-[1.75] max-w-lg" style={{ color: "var(--ink-soft)" }}>
+            Hidratação profunda, brilho vivo e definição sutil para os lábios. Um ritual desenhado para devolver saúde e luminosidade sem alterar seus traços — o toque que se tornou marca registrada da clínica.
           </p>
-          <ul className="mt-8 space-y-3">
-            {["Coren 612594 MG", "Protocolos científicos", "Resultados naturais"].map((t) => (
-              <li key={t} className="flex items-center gap-3 font-semibold text-[15px]" style={{ color: "var(--graphite)" }}>
-                <span style={{ color: "var(--rose)" }}>→</span> {t}
+          <ul className="mt-10 divide-y" style={{ borderColor: "var(--line)" }}>
+            {[
+              ["Duração", "45 minutos"],
+              ["Recuperação", "Imediata"],
+              ["Resultado", "Progressivo · 7 a 14 dias"],
+              ["Indicação", "Todos os tipos de pele"],
+            ].map(([k, v]) => (
+              <li key={k} className="flex items-center justify-between py-4 border-b" style={{ borderColor: "var(--line-soft)" }}>
+                <span className="eyebrow" style={{ color: "var(--mid)" }}>{k}</span>
+                <span className="serif-i text-[20px]" style={{ color: "var(--ink)" }}>{v}</span>
               </li>
             ))}
           </ul>
-        </div>
-        <div className="fade-up relative">
-          <div className="relative rounded-[24px] bg-white shadow-[0_30px_80px_rgba(232,100,138,0.15)] overflow-hidden">
-            <img
-              src={IMG.leticia1}
-              alt="Letícia Gomes"
-              className="w-full object-cover"
-              style={{ objectPosition: "top center", minHeight: 460, maxHeight: 620 }}
-            />
-            <span
-              className="absolute bottom-5 left-5 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-white"
-              style={{ background: "var(--rose)" }}
-            >
-              Letícia Gomes · Estética Clínica
-            </span>
-          </div>
+          <a
+            href={WA}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-10 inline-flex items-center gap-3 eyebrow px-7 py-4 rounded-full text-white"
+            style={{ background: "var(--wine)" }}
+          >
+            Reservar Hydra Gloss <span>→</span>
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
-function ServiceCard({
-  size,
-  featured,
-  bg,
-  icon,
-  title,
-  desc,
-  tag,
-  badge,
-}: {
-  size: "lg" | "sm";
-  featured?: boolean;
-  bg?: string;
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  tag: string;
-  badge?: string;
-}) {
-  return (
-    <div
-      className={`fade-up rounded-3xl p-8 lg:p-10 transition-all duration-[350ms] hover:-translate-y-1 ${size === "lg" ? "lg:col-span-3" : "lg:col-span-2"}`}
-      style={{
-        background: bg || "var(--off)",
-        border: featured ? "1px solid var(--rose)" : "1px solid var(--line)",
-        boxShadow: "0 2px 0 rgba(0,0,0,0)",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 20px 60px rgba(232,100,138,0.12)")}
-      onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "0 2px 0 rgba(0,0,0,0)")}
-    >
-      <div className="flex items-start justify-between">
-        <div
-          className="w-12 h-12 rounded-2xl flex items-center justify-center"
-          style={{ background: "white", border: "1px solid var(--line)", color: "var(--rose)" }}
-        >
-          {icon}
-        </div>
-        {badge && (
-          <span className="px-3 py-1 rounded-full text-[10px] font-extrabold text-white uppercase tracking-wider" style={{ background: "var(--rose)" }}>
-            {badge}
-          </span>
-        )}
-      </div>
-      <h3 className={`mt-6 font-bold text-[color:var(--graphite)] ${size === "lg" ? "text-[26px]" : "text-[19px]"}`}>{title}</h3>
-      <p className="mt-3 text-[14px] leading-relaxed" style={{ color: "var(--mid)" }}>{desc}</p>
-      <span
-        className="inline-block mt-6 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
-        style={{ background: "var(--rose-dim)", color: "var(--rose)", border: "1px solid var(--rose)" }}
-      >
-        {tag}
-      </span>
-    </div>
-  );
-}
-
+/* ---------------- SERVICOS (list) ---------------- */
 function Servicos() {
-  const Ico = ({ d }: { d: string }) => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d={d} />
-    </svg>
-  );
-  return (
-    <section id="servicos" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="fade-up mb-14">
-          <span className="font-serif-i text-[42px] lg:text-[52px]" style={{ color: "var(--mid)" }}>nossos</span>{" "}
-          <span className="font-extrabold text-[52px] lg:text-[64px] text-[color:var(--graphite)] tracking-tight">SERVIÇOS</span>
-        </div>
-        <div className="grid lg:grid-cols-5 gap-6">
-          <ServiceCard
-            size="lg"
-            featured
-            bg="var(--rose-dim)"
-            badge="Destaque"
-            tag="Hydra Gloss"
-            title="Hydra Gloss"
-            desc="O procedimento mais procurado da clínica. Hidratação profunda, brilho natural e definição para lábios visivelmente mais saudáveis, sem alterar traços."
-            icon={<Ico d="M12 3c3 4 5 7 5 10a5 5 0 1 1-10 0c0-3 2-6 5-10z" />}
-          />
-          <ServiceCard
-            size="sm"
-            tag="Protocolo Clínico"
-            title="Limpeza de Pele Profunda"
-            desc="Higienização profissional que remove impurezas, cravos e renova a textura da pele com conforto."
-            icon={<Ico d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0zM8 12h8M12 8v8" />}
-          />
-          <ServiceCard
-            size="sm"
-            tag="Skincare"
-            title="Skincare Personalizado"
-            desc="Protocolo desenhado para o seu tipo de pele, com ativos científicos e resultados consistentes."
-            icon={<Ico d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" />}
-          />
-          <ServiceCard
-            size="lg"
-            bg="var(--blush)"
-            tag="Hydra Lips"
-            title="Hydra Lips"
-            desc="Preenchimento labial com foco em hidratação e resultado natural. Lábios mais lisos, definidos e saudáveis, sem exageros."
-            icon={<Ico d="M4 12c2-3 5-4 8-4s6 1 8 4c-2 3-5 4-8 4s-6-1-8-4z" />}
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Resultados() {
-  const cards = [
-    { before: IMG.hydraLips.split("Hydra")[0] || IMG.hydraLips, after: IMG.hydraLips, name: "Hydra Lips", src: IMG.hydraLips },
-    { name: "Hydra Gloss", src: IMG.gloss1 },
-    { name: "Hydra Gloss", src: IMG.gloss2 },
-    { name: "Hydra Gloss", src: IMG.gloss3 },
-    { name: "Limpeza de Pele", src: IMG.limpeza },
-    { name: "Hydra Lips", src: IMG.hydraLips },
-  ];
-  return (
-    <section id="resultados" className="py-24 lg:py-32" style={{ background: "var(--blush)" }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="fade-up mb-14">
-          <span className="font-extrabold text-[54px] lg:text-[72px] text-[color:var(--graphite)] tracking-tight">RESULTADOS</span>{" "}
-          <span className="font-serif-i text-[44px] lg:text-[56px]" style={{ color: "var(--rose)" }}>reais.</span>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cards.map((c, i) => (
-            <div key={i} className="fade-up rounded-[20px] overflow-hidden bg-white shadow-[0_10px_40px_rgba(232,100,138,0.10)]">
-              <div className="relative">
-                <img src={c.src} alt={c.name} className="w-full h-[420px] object-cover" style={{ objectPosition: "center" }} />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider" style={{ background: "var(--rose)" }}>
-                  Hydra Gloss
-                </span>
-              </div>
-              <div className="p-5">
-                <div className="font-semibold text-[12px] uppercase tracking-wider text-[color:var(--graphite)]">{c.name}</div>
-                <div className="text-[11px] mt-1" style={{ color: "var(--muted)" }}>Hydra Gloss LG Estética</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Depoimentos() {
   const items = [
-    { t: "Hydra Gloss perfeito! Resultado natural, durou muito mais do que eu esperava. Letícia é incrível.", n: "Rafaela C.", c: "Araxá" },
-    { t: "Fiz limpeza de pele e o protocolo de skincare. Minha pele nunca esteve tão bem. Profissional demais!", n: "Isabela M.", c: "Araxá" },
-    { t: "Sempre tive medo de procedimentos nos lábios. A Letícia passou tanta segurança que nem senti. Amei!", n: "Camila R.", c: "MG" },
+    { n: "02", t: "Hydra Lips", d: "Preenchimento com foco em hidratação, contorno e resultado natural.", img: IMG.lips1 },
+    { n: "03", t: "Limpeza de Pele Profunda", d: "Higienização clínica com extração cuidadosa e renovação da textura.", img: IMG.skin },
+    { n: "04", t: "Skincare Personalizado", d: "Rotina desenhada para o seu tipo de pele, guiada por ativos científicos.", img: IMG.gloss3 },
+    { n: "05", t: "Consulta & Diagnóstico", d: "Leitura clínica completa para desenhar o seu protocolo assinatura.", img: IMG.port1 },
   ];
   return (
-    <section className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="fade-up mb-14">
-          <span className="font-serif-i text-[42px] lg:text-[52px] text-[color:var(--graphite)]">quem veio,</span>{" "}
-          <span className="font-extrabold text-[42px] lg:text-[52px]" style={{ color: "var(--rose)" }}>VOLTOU.</span>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {items.map((d, i) => (
-            <div
-              key={i}
-              className="fade-up rounded-3xl p-8"
-              style={{ background: "var(--off)", border: "1px solid var(--line)" }}
-            >
-              <div className="font-bold text-[14px]" style={{ color: "var(--rose)" }}>★★★★★</div>
-              <p className="mt-4 italic text-[15px] leading-relaxed text-[color:var(--graphite)]">"{d.t}"</p>
-              <div className="mt-6 font-bold text-[13px] uppercase tracking-widest" style={{ color: "var(--rose)" }}>{d.n}</div>
-              <div className="text-[12px]" style={{ color: "var(--muted)" }}>{d.c}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CTAFinal() {
-  return (
-    <section id="contato" className="relative py-28 lg:py-36 overflow-hidden" style={{ background: "var(--graphite)" }}>
-      <div
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(ellipse 60% 70% at 50% 50%, rgba(232,100,138,0.14) 0%, transparent 65%)",
-        }}
-      />
-      <div className="relative max-w-3xl mx-auto text-center px-6">
-        <span
-          className="inline-flex px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-widest"
-          style={{ background: "var(--rose-dim)", color: "var(--rose)", border: "1px solid var(--rose)" }}
-        >
-          Agendamentos pelo link
-        </span>
-        <h2 className="mt-6 leading-[1.05]">
-          <span className="text-white font-normal text-[38px] lg:text-[48px]">Quer estar com a pele</span>
-          <br />
-          <span className="font-extrabold text-[52px] lg:text-[64px]" style={{ color: "var(--rose)" }}>perfeita?</span>
-        </h2>
-        <p className="mt-6 text-[16px]" style={{ color: "var(--muted)" }}>
-          Consulta sem compromisso. Protocolos personalizados para o seu tipo de pele em Araxá, MG.
-        </p>
-        <a
-          href={WA}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-block mt-10 px-13 py-4 rounded-full font-bold text-[14px] uppercase tracking-wider text-white transition-all duration-300"
-          style={{ background: "var(--rose)", padding: "18px 52px" }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "white"; e.currentTarget.style.color = "var(--rose)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "var(--rose)"; e.currentTarget.style.color = "white"; }}
-        >
-          Agendar pelo WhatsApp
-        </a>
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer style={{ background: "var(--graphite)", borderTop: "1px solid var(--line)" }} className="py-16 text-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 grid md:grid-cols-3 gap-10">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 flex items-center justify-center font-extrabold text-white" style={{ background: "var(--rose)", borderRadius: 8, fontSize: 18 }}>LG</div>
-            <div className="font-bold text-[15px]">Letícia Gomes</div>
+    <section id="servicos" className="py-28 lg:py-36" style={{ background: "var(--ivory)" }}>
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14">
+        <div className="fade-up flex items-end justify-between mb-16 gap-8 flex-wrap">
+          <div>
+            <span className="eyebrow" style={{ color: "var(--wine)" }}>— O menu</span>
+            <h2 className="mt-4 serif text-[52px] lg:text-[80px] leading-[0.95] tracking-tight" style={{ color: "var(--ink)" }}>
+              Serviços <span className="serif-i" style={{ color: "var(--wine)" }}>autorais</span>
+            </h2>
           </div>
-          <p className="mt-4 text-[13px]" style={{ color: "var(--muted)" }}>
-            Estética Clínica · Araxá MG · Coren 612594
+          <p className="max-w-sm text-[14px] leading-[1.7]" style={{ color: "var(--mid)" }}>
+            Cada tratamento é conduzido em atendimento individual, com protocolos ajustados à leitura da sua pele no momento da consulta.
           </p>
         </div>
-        <div className="flex flex-col gap-2 text-[13px]" style={{ color: "var(--muted)" }}>
-          <a href="#sobre" className="hover:text-white">Sobre</a>
-          <a href="#servicos" className="hover:text-white">Serviços</a>
-          <a href="#resultados" className="hover:text-white">Resultados</a>
-          <a href="#contato" className="hover:text-white">Contato</a>
-        </div>
-        <div className="text-[13px]" style={{ color: "var(--muted)" }}>
-          <a href="https://instagram.com/resultados_lgestetica" target="_blank" rel="noreferrer" className="block hover:text-white">
-            @resultados_lgestetica
+
+        <ul>
+          {items.map((s, i) => (
+            <li
+              key={s.n}
+              className="group fade-up border-t last:border-b relative overflow-hidden"
+              style={{ borderColor: "var(--line)" }}
+            >
+              <a
+                href={WA}
+                target="_blank"
+                rel="noreferrer"
+                className="grid grid-cols-[64px_1fr_auto] items-center gap-8 py-8 lg:py-10 px-2 transition-colors"
+                onMouseEnter={(e) => (e.currentTarget.style.background = "var(--paper)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              >
+                <span className="serif-i text-[22px]" style={{ color: "var(--wine)" }}>{s.n}</span>
+                <div className="flex flex-col lg:flex-row lg:items-baseline gap-2 lg:gap-8">
+                  <span className="serif text-[32px] lg:text-[44px] leading-none" style={{ color: "var(--ink)" }}>{s.t}</span>
+                  <span className="text-[14px] max-w-md" style={{ color: "var(--mid)" }}>{s.d}</span>
+                </div>
+                <span className="eyebrow flex items-center gap-3" style={{ color: "var(--ink)" }}>
+                  Reservar <span className="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </a>
+              {/* hover thumb */}
+              <div className="pointer-events-none absolute right-40 top-1/2 -translate-y-1/2 w-[160px] h-[200px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden lg:block">
+                <img src={s.img} alt="" className="w-full h-full object-cover rounded-[4px] shadow-2xl" />
+              </div>
+              {i === 0 && null}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- GALERIA (results) ---------------- */
+function Galeria() {
+  const items = [
+    { src: IMG.gloss1, cat: "Hydra Gloss", cap: "Definição & brilho" },
+    { src: IMG.gloss2, cat: "Hydra Gloss", cap: "Hidratação profunda" },
+    { src: IMG.gloss3, cat: "Hydra Gloss", cap: "Contorno natural" },
+    { src: IMG.lips1,  cat: "Hydra Lips",  cap: "Resultado imediato" },
+    { src: IMG.skin,   cat: "Limpeza de Pele", cap: "Textura renovada" },
+    { src: IMG.port1,  cat: "Ritual",      cap: "No estúdio · Araxá" },
+  ];
+  return (
+    <section id="galeria" className="py-28 lg:py-36" style={{ background: "var(--bone)" }}>
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14">
+        <div className="fade-up flex items-end justify-between mb-16 flex-wrap gap-6">
+          <div>
+            <span className="eyebrow" style={{ color: "var(--wine)" }}>— Portfólio</span>
+            <h2 className="mt-4 serif text-[52px] lg:text-[80px] leading-[0.95] tracking-tight" style={{ color: "var(--ink)" }}>
+              Resultados <span className="serif-i" style={{ color: "var(--wine)" }}>reais</span>
+            </h2>
+          </div>
+          <a href={IG} target="_blank" rel="noreferrer" className="eyebrow underline underline-offset-4" style={{ color: "var(--ink)" }}>
+            Ver mais no Instagram →
           </a>
-          <a href={WA} target="_blank" rel="noreferrer" className="block mt-2 hover:text-white">
-            WhatsApp
+        </div>
+
+        <div className="grid grid-cols-12 gap-4 lg:gap-6">
+          {items.map((it, i) => {
+            const layouts = [
+              "col-span-12 md:col-span-7 aspect-[4/5]",
+              "col-span-12 md:col-span-5 aspect-[4/5]",
+              "col-span-6 md:col-span-4 aspect-[3/4]",
+              "col-span-6 md:col-span-4 aspect-[3/4]",
+              "col-span-12 md:col-span-4 aspect-[3/4]",
+              "col-span-12 aspect-[16/7]",
+            ];
+            return (
+              <figure key={i} className={`fade-up relative overflow-hidden rounded-[4px] ${layouts[i]}`} style={{ background: "var(--paper)" }}>
+                <img src={it.src} alt={it.cap} className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]" style={{ objectPosition: "center" }} />
+                <figcaption className="absolute bottom-0 inset-x-0 p-5 flex items-end justify-between text-white" style={{ background: "linear-gradient(180deg, transparent 40%, rgba(23,18,20,0.55) 100%)" }}>
+                  <span className="serif-i text-[22px]">{it.cap}</span>
+                  <span className="eyebrow opacity-90">{it.cat}</span>
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- CITAÇÃO ---------------- */
+function Quote() {
+  return (
+    <section className="py-32" style={{ background: "var(--wine)", color: "var(--ivory)" }}>
+      <div className="max-w-[1000px] mx-auto px-8 text-center">
+        <div className="serif-i text-[8vw] leading-none opacity-30" style={{ fontSize: "clamp(80px, 12vw, 180px)" }}>“</div>
+        <p className="serif text-[30px] lg:text-[44px] leading-[1.2] mt-[-30px]">
+          Ciência e cuidado <span className="serif-i">guiando resultados naturais.</span>
+        </p>
+        <div className="mt-10 eyebrow opacity-80">Letícia Gomes · Coren 612594 MG</div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- DEPOIMENTOS ---------------- */
+function Depoimentos() {
+  const items = [
+    { t: "Resultado natural e duradouro. A Letícia entende o que combina com o seu rosto — a experiência inteira parece de outro nível.", n: "Rafaela C.", c: "Araxá · MG" },
+    { t: "Fiz limpeza de pele e o skincare clínico. Minha pele nunca esteve tão bem — sinto e vejo a diferença todos os dias.", n: "Isabela M.", c: "Araxá · MG" },
+    { t: "Tinha receio de tratar os lábios. Ela conduziu tudo com tanta calma e clareza que virei cliente para sempre.", n: "Camila R.", c: "Uberaba · MG" },
+  ];
+  return (
+    <section className="py-28 lg:py-36" style={{ background: "var(--ivory)" }}>
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14">
+        <div className="fade-up mb-16">
+          <span className="eyebrow" style={{ color: "var(--wine)" }}>— Vozes</span>
+          <h2 className="mt-4 serif text-[52px] lg:text-[80px] leading-[0.95] tracking-tight" style={{ color: "var(--ink)" }}>
+            Quem viveu, <span className="serif-i" style={{ color: "var(--wine)" }}>voltou.</span>
+          </h2>
+        </div>
+        <div className="grid lg:grid-cols-3 gap-8">
+          {items.map((d, i) => (
+            <blockquote key={i} className="fade-up p-10 border" style={{ borderColor: "var(--line)", background: "var(--paper)" }}>
+              <div className="serif-i text-[46px] leading-none" style={{ color: "var(--wine)" }}>“</div>
+              <p className="mt-4 serif text-[22px] leading-[1.4]" style={{ color: "var(--ink)" }}>{d.t}</p>
+              <footer className="mt-8 pt-6 border-t flex items-center justify-between" style={{ borderColor: "var(--line-soft)" }}>
+                <span className="eyebrow" style={{ color: "var(--ink)" }}>{d.n}</span>
+                <span className="text-[12px]" style={{ color: "var(--mid)" }}>{d.c}</span>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- CTA / CONTATO ---------------- */
+function CTA() {
+  return (
+    <section id="contato" className="relative py-32 lg:py-40 overflow-hidden" style={{ background: "var(--ink)" }}>
+      <div className="absolute inset-0 opacity-30">
+        <img src={IMG.port1} alt="" className="w-full h-full object-cover" style={{ objectPosition: "50% 25%", filter: "grayscale(0.3)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(23,18,20,0.85), rgba(23,18,20,0.75))" }} />
+      </div>
+      <div className="relative max-w-[1000px] mx-auto px-8 text-center text-white">
+        <span className="eyebrow" style={{ color: "var(--nude)" }}>— Agende sua consulta</span>
+        <h2 className="mt-6 serif text-[56px] lg:text-[92px] leading-[0.95] tracking-tight">
+          A sua próxima <br />
+          <span className="serif-i" style={{ color: "var(--nude)" }}>versão começa aqui.</span>
+        </h2>
+        <p className="mt-8 max-w-lg mx-auto text-[15px] leading-[1.75]" style={{ color: "rgba(245,241,234,0.75)" }}>
+          Estúdio em Araxá · MG. Atendimento individual, protocolos personalizados, agenda com vagas limitadas por semana.
+        </p>
+        <div className="mt-12 flex items-center justify-center gap-4 flex-wrap">
+          <a
+            href={WA}
+            target="_blank"
+            rel="noreferrer"
+            className="eyebrow inline-flex items-center gap-3 px-8 py-4 rounded-full"
+            style={{ background: "var(--ivory)", color: "var(--ink)" }}
+          >
+            Reservar pelo WhatsApp <span>→</span>
+          </a>
+          <a
+            href={IG}
+            target="_blank"
+            rel="noreferrer"
+            className="eyebrow inline-flex items-center gap-3 px-8 py-4 rounded-full border"
+            style={{ borderColor: "rgba(245,241,234,0.4)", color: "var(--ivory)" }}
+          >
+            Instagram
           </a>
         </div>
       </div>
-      <div className="mt-12 pt-6 border-t text-center text-[11px]" style={{ borderColor: "var(--line)", color: "var(--muted)" }}>
-        © 2025 Letícia Gomes Estética Clínica · Coren 612594 MG · Araxá
+    </section>
+  );
+}
+
+/* ---------------- FOOTER ---------------- */
+function Footer() {
+  return (
+    <footer style={{ background: "var(--ivory)" }} className="pt-20 pb-10">
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14">
+        <div className="grid lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10">
+          <div>
+            <div className="serif-i text-[42px]" style={{ color: "var(--wine)" }}>Letícia Gomes</div>
+            <p className="mt-4 max-w-sm text-[14px] leading-[1.7]" style={{ color: "var(--mid)" }}>
+              Estética clínica autoral em Araxá · MG. Enfermeira esteta · Coren 612594.
+            </p>
+          </div>
+          <div>
+            <div className="eyebrow mb-4" style={{ color: "var(--ink)" }}>Navegação</div>
+            <ul className="space-y-2 text-[14px]" style={{ color: "var(--mid)" }}>
+              <li><a href="#filosofia">Filosofia</a></li>
+              <li><a href="#assinatura">Assinatura</a></li>
+              <li><a href="#servicos">Serviços</a></li>
+              <li><a href="#galeria">Galeria</a></li>
+            </ul>
+          </div>
+          <div>
+            <div className="eyebrow mb-4" style={{ color: "var(--ink)" }}>Contato</div>
+            <ul className="space-y-2 text-[14px]" style={{ color: "var(--mid)" }}>
+              <li><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a></li>
+              <li><a href={IG} target="_blank" rel="noreferrer">Instagram</a></li>
+              <li>Araxá · MG</li>
+            </ul>
+          </div>
+          <div>
+            <div className="eyebrow mb-4" style={{ color: "var(--ink)" }}>Credencial</div>
+            <ul className="space-y-2 text-[14px]" style={{ color: "var(--mid)" }}>
+              <li>Coren 612594 MG</li>
+              <li>Enfermeira Esteta</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-16 pt-6 border-t flex items-center justify-between text-[11px] eyebrow" style={{ borderColor: "var(--line)", color: "var(--mid)" }}>
+          <span>© 2025 Letícia Gomes Estética Clínica</span>
+          <span>Araxá · Minas Gerais</span>
+        </div>
       </div>
     </footer>
   );
 }
 
-function WhatsFloat() {
+/* ---------------- WHATSAPP FLOAT ---------------- */
+function Whats() {
   return (
     <a
       href={WA}
       target="_blank"
       rel="noreferrer"
       aria-label="WhatsApp"
-      className="fixed bottom-8 right-8 z-50 flex items-center justify-center wa-pulse transition-transform hover:scale-110"
-      style={{ background: "var(--rose)", width: 58, height: 58, borderRadius: 999 }}
+      className="fixed bottom-8 right-8 z-50 flex items-center justify-center transition-transform hover:scale-105"
+      style={{ background: "var(--wine)", width: 58, height: 58, borderRadius: 999, boxShadow: "0 10px 40px rgba(74,29,46,0.35)" }}
     >
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-        <path d="M20.52 3.48A11.9 11.9 0 0012.02 0C5.42 0 .04 5.37.04 12c0 2.11.55 4.17 1.6 5.98L0 24l6.2-1.62A11.94 11.94 0 0012.02 24C18.62 24 24 18.63 24 12c0-3.19-1.24-6.19-3.48-8.52zM12.02 21.8a9.8 9.8 0 01-5-1.37l-.36-.21-3.68.96.98-3.58-.23-.37A9.79 9.79 0 012.24 12C2.24 6.6 6.63 2.2 12.02 2.2c2.61 0 5.06 1.02 6.9 2.86a9.72 9.72 0 012.88 6.94c0 5.4-4.39 9.8-9.78 9.8zm5.63-7.35c-.31-.16-1.83-.9-2.11-1s-.49-.16-.7.16-.8 1-.98 1.22c-.18.21-.36.24-.67.08-.31-.16-1.3-.48-2.48-1.54a9.27 9.27 0 01-1.71-2.13c-.18-.31-.02-.48.14-.63.14-.14.31-.36.47-.54.16-.18.21-.31.31-.52.1-.21.05-.39-.03-.54-.08-.16-.7-1.68-.96-2.3-.25-.6-.51-.52-.7-.53h-.6c-.21 0-.54.08-.83.39-.29.31-1.09 1.07-1.09 2.6s1.11 3.02 1.27 3.23c.16.21 2.2 3.37 5.34 4.72.75.32 1.33.52 1.78.66.75.24 1.43.21 1.97.13.6-.09 1.83-.75 2.09-1.47.26-.72.26-1.34.18-1.47-.08-.13-.29-.21-.6-.37z"/>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="var(--ivory)">
+        <path d="M20.52 3.48A11.9 11.9 0 0012.02 0C5.42 0 .04 5.37.04 12c0 2.11.55 4.17 1.6 5.98L0 24l6.2-1.62A11.94 11.94 0 0012.02 24C18.62 24 24 18.63 24 12c0-3.19-1.24-6.19-3.48-8.52zm-8.5 18.32a9.8 9.8 0 01-5-1.37l-.36-.21-3.68.96.98-3.58-.23-.37A9.79 9.79 0 012.24 12C2.24 6.6 6.63 2.2 12.02 2.2c2.61 0 5.06 1.02 6.9 2.86a9.72 9.72 0 012.88 6.94c0 5.4-4.39 9.8-9.78 9.8zm5.63-7.35c-.31-.16-1.83-.9-2.11-1s-.49-.16-.7.16-.8 1-.98 1.22c-.18.21-.36.24-.67.08-.31-.16-1.3-.48-2.48-1.54a9.27 9.27 0 01-1.71-2.13c-.18-.31-.02-.48.14-.63.14-.14.31-.36.47-.54.16-.18.21-.31.31-.52.1-.21.05-.39-.03-.54-.08-.16-.7-1.68-.96-2.3-.25-.6-.51-.52-.7-.53h-.6c-.21 0-.54.08-.83.39-.29.31-1.09 1.07-1.09 2.6s1.11 3.02 1.27 3.23c.16.21 2.2 3.37 5.34 4.72.75.32 1.33.52 1.78.66.75.24 1.43.21 1.97.13.6-.09 1.83-.75 2.09-1.47.26-.72.26-1.34.18-1.47-.08-.13-.29-.21-.6-.37z"/>
       </svg>
     </a>
   );
@@ -559,16 +509,18 @@ function Home() {
   useReveal();
   return (
     <div>
-      <Navbar />
+      <Nav />
       <Hero />
-      <SocialProofStrip />
-      <Sobre />
+      <Marquee />
+      <Filosofia />
+      <Assinatura />
       <Servicos />
-      <Resultados />
+      <Galeria />
+      <Quote />
       <Depoimentos />
-      <CTAFinal />
+      <CTA />
       <Footer />
-      <WhatsFloat />
+      <Whats />
     </div>
   );
 }

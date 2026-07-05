@@ -120,7 +120,7 @@ function Hero() {
         </div>
 
         {/* Right — portrait */}
-        <div className="relative overflow-hidden" style={{ background: "var(--bone)" }}>
+        <div className="relative overflow-hidden min-h-[70vh] lg:min-h-0" style={{ background: "var(--bone)" }}>
           <img
             src={IMG.port2}
             alt="Letícia Gomes"
@@ -303,12 +303,11 @@ function Servicos() {
 /* ---------------- GALERIA (results) ---------------- */
 function Galeria() {
   const items = [
-    { src: IMG.gloss1, cat: "Hydra Gloss", cap: "Definição & brilho" },
-    { src: IMG.gloss2, cat: "Hydra Gloss", cap: "Hidratação profunda" },
-    { src: IMG.gloss3, cat: "Hydra Gloss", cap: "Contorno natural" },
-    { src: IMG.lips1,  cat: "Hydra Lips",  cap: "Resultado imediato" },
-    { src: IMG.skin,   cat: "Limpeza de Pele", cap: "Textura renovada" },
-    { src: IMG.port1,  cat: "Ritual",      cap: "No estúdio · Araxá" },
+    { src: IMG.gloss1, alt: "Resultado real" },
+    { src: IMG.gloss2, alt: "Resultado real" },
+    { src: IMG.gloss3, alt: "Resultado real" },
+    { src: IMG.lips1,  alt: "Resultado real" },
+    { src: IMG.skin,   alt: "Resultado real" },
   ];
   return (
     <section id="galeria" className="py-28 lg:py-36" style={{ background: "var(--bone)" }}>
@@ -333,18 +332,31 @@ function Galeria() {
               "col-span-6 md:col-span-4 aspect-[3/4]",
               "col-span-6 md:col-span-4 aspect-[3/4]",
               "col-span-12 md:col-span-4 aspect-[3/4]",
-              "col-span-12 aspect-[16/7]",
             ];
             return (
               <figure key={i} className={`fade-up relative overflow-hidden rounded-[4px] ${layouts[i]}`} style={{ background: "var(--paper)" }}>
-                <img src={it.src} alt={it.cap} className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]" style={{ objectPosition: "center" }} />
-                <figcaption className="absolute bottom-0 inset-x-0 p-5 flex items-end justify-between text-white" style={{ background: "linear-gradient(180deg, transparent 40%, rgba(23,18,20,0.55) 100%)" }}>
-                  <span className="serif-i text-[22px]">{it.cap}</span>
-                  <span className="eyebrow opacity-90">{it.cat}</span>
-                </figcaption>
+                <img src={it.src} alt={it.alt} className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]" style={{ objectPosition: "center" }} />
               </figure>
             );
           })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- ESTÚDIO ---------------- */
+function Estudio() {
+  return (
+    <section className="py-12 lg:py-20" style={{ background: "var(--ivory)" }}>
+      <div className="max-w-[1400px] mx-auto px-8 lg:px-14">
+        <div className="fade-up relative overflow-hidden rounded-[4px] aspect-[16/7] max-md:aspect-[4/3]">
+          <img
+            src={IMG.port1}
+            alt="Letícia Gomes no estúdio em Araxá"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: "center" }}
+          />
         </div>
       </div>
     </section>
@@ -516,6 +528,7 @@ function Home() {
       <Assinatura />
       <Servicos />
       <Galeria />
+      <Estudio />
       <Quote />
       <Depoimentos />
       <CTA />
